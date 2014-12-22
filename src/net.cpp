@@ -654,7 +654,7 @@ void CNode::copyStats(CNodeStats &stats)
 void ThreadSocketHandler(void* parg)
 {
     // Make this thread recognisable as the networking thread
-    RenameThread("hal--net");
+    RenameThread("hal-net");
 
     try
     {
@@ -1166,7 +1166,7 @@ static const char *strDNSSeed[][2] = {
 void ThreadDNSAddressSeed(void* parg)
 {
     // Make this thread recognisable as the DNS seeding thread
-    RenameThread("hal--dnsseed");
+    RenameThread("hal-dnsseed");
 
     try
     {
@@ -1268,7 +1268,7 @@ void ThreadDumpAddress2(void* parg)
 void ThreadDumpAddress(void* parg)
 {
     // Make this thread recognisable as the address dumping thread
-    RenameThread("hal--adrdump");
+    RenameThread("hal-adrdump");
 
     try
     {
@@ -1283,7 +1283,7 @@ void ThreadDumpAddress(void* parg)
 void ThreadOpenConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("hal--opencon");
+    RenameThread("hal-opencon");
 
     try
     {
@@ -1464,7 +1464,7 @@ void ThreadOpenConnections2(void* parg)
 void ThreadOpenAddedConnections(void* parg)
 {
     // Make this thread recognisable as the connection opening thread
-    RenameThread("hal--opencon");
+    RenameThread("hal-opencon");
 
     try
     {
@@ -1595,7 +1595,7 @@ bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOu
 void ThreadMessageHandler(void* parg)
 {
     // Make this thread recognisable as the message handling thread
-    RenameThread("hal--msghand");
+    RenameThread("hal-msghand");
 
     try
     {
@@ -1846,7 +1846,7 @@ void static Discover()
 void StartNode(void* parg)
 {
     // Make this thread recognisable as the startup thread
-    RenameThread("hal--start");
+    RenameThread("hal-start");
 
     if (semOutbound == NULL) {
         // initialize semaphore
