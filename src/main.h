@@ -913,29 +913,24 @@ public:
     }
 
     /* Block hashing */
-    uint256 GetHash(int nHeight = 0) const {
+    uint256 GetHash() const {
 
-        /* Not fail safe, but better than nothing */
-        if(!nHeight)
-          nHeight = GetBlockHeight();
-
-        /* X15 or BLAKE2s */
-        if(!fTestNet && (nHeight < nForkOne))
+        if(!fTestNet && (nTime < 1419062077))
           return(Hash9(BEGIN(nVersion), END(nNonce)));
-
-        uint256 hashBlock;
-        /* 80 + 32 bytes, no padding */
-        uchar input[112];
-        /* Copy the block header */
-        neoscrypt_copy(&input[0], &nVersion, 80);
-        /* Copy the merkle root once again */
-        neoscrypt_copy(&input[80], &hashMerkleRoot, 32);
-        /* Hash the data;
-         * key is higher and lower 10 bytes of merkle root
-         * with nTime, nBits, nNonce in between */
-        neoscrypt_blake2s(&input[0], 112, &input[58], 32, &hashBlock, 32);
-
-        return(hashBlock);
+        else {
+            uint256 hashBlock;
+            /* 80 + 32 bytes, no padding */
+            uchar input[112];
+            /* Copy the block header */
+            neoscrypt_copy(&input[0], &nVersion, 80);
+            /* Copy the merkle root once again */
+            neoscrypt_copy(&input[80], &hashMerkleRoot, 32);
+            /* Hash the data;
+             * key is higher and lower 10 bytes of merkle root
+             * with nTime, nBits, nNonce in between */
+            neoscrypt_blake2s(&input[0], 112, &input[58], 32, &hashBlock, 32);
+            return(hashBlock);
+        }
     }
 
     /* Proof-of-work hashing */
@@ -1515,8 +1510,8 @@ public:
         block.nBits           = nBits;
         block.nNonce          = nNonce;
 
-        /* nHeight is known and should be used to avoid trouble */
-        const_cast<CDiskBlockIndex*>(this)->blockHash = block.GetHash(nHeight);
+        /* nTime is used to choose between old and new block hashing */
+        const_cast<CDiskBlockIndex*>(this)->blockHash = block.GetHash();
 
         return(blockHash);
     }
