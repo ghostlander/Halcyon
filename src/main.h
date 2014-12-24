@@ -42,6 +42,7 @@ static const int64_t BLOCK_LIMITER_TIME = 180;
 /* Livenet hard forks */
 static const int nForkOne              = 160000;
 static const uint nStakeMaxAgeForkTime = 1419076800;  /* 20 Dec 2014 12:00:00 GMT */
+static const uint nStakeRewardFork     = 163333;
 
 
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }

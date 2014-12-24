@@ -1023,7 +1023,10 @@ int64_t GetProofOfStakeReward(int64_t nHeight, int64_t nCoinAge, int64_t nFees) 
           nRewardCoinYear = 100 * CENT;
     }
 
-    nSubsidy = (nCoinAge * nRewardCoinYear) / (365 * COIN);
+    if(!fTestNet && (nHeight < nStakeRewardFork))
+      nSubsidy = (nCoinAge * nRewardCoinYear) / (365 * COIN);
+    else
+      nSubsidy = (nCoinAge / 365) * (nRewardCoinYear / COIN);
 
     if(fTestNet || (!fTestNet && (nHeight >= nForkOne)))
       if(nSubsidy > 5 * COIN) nSubsidy = 5 * COIN;
@@ -1990,15 +1993,17 @@ bool CTransaction::GetCoinAge(CTxDB& txdb, uint64_t& nCoinAge) const
         int64_t nValueIn = txPrev.vout[txin.prevout.n].nValue;
         bnCentSecond += CBigNum(nValueIn) * (nTime-txPrev.nTime) / CENT;
 
-        if (fDebug && GetBoolArg("-printcoinage"))
-            printf("coin age nValueIn=%"PRId64" nTimeDiff=%d bnCentSecond=%s\n", nValueIn, nTime - txPrev.nTime, bnCentSecond.ToString().c_str());
+        if(fDebug && GetBoolArg("-printcoinage"))
+          printf("coin age nValueIn=%"PRId64" nTimeDiff=%d nCentSecond=%"PRIu64"\n",
+            nValueIn, nTime - txPrev.nTime, bnCentSecond.getuint64());
     }
 
     CBigNum bnCoinDay = bnCentSecond * CENT / (24 * 60 * 60);
-    if (fDebug && GetBoolArg("-printcoinage"))
-        printf("coin age bnCoinDay=%s\n", bnCoinDay.ToString().c_str());
     nCoinAge = bnCoinDay.getuint64();
-    return true;
+    if(fDebug && GetBoolArg("-printcoinage"))
+      printf("coin age nCoinAge=%"PRIu64"\n", nCoinAge);
+
+    return(true);
 }
 
 // ppcoin: total coin age spent in block, in the unit of coin-days.
@@ -2018,9 +2023,12 @@ bool CBlock::GetCoinAge(uint64_t& nCoinAge) const
 
     if (nCoinAge == 0) // block coin age minimum 1 coin-day
         nCoinAge = 1;
-    if (fDebug && GetBoolArg("-printcoinage"))
-        printf("block coin age total nCoinDays=%"PRId64"\n", nCoinAge);
-    return true;
+
+    /* Might overflow */
+    if(fDebug && GetBoolArg("-printcoinage"))
+      printf("block nCoinAge=%"PRIu64"\n", nCoinAge);
+
+    return(true);
 }
 
 bool CBlock::AddToBlockIndex(unsigned int nFile, unsigned int nBlockPos, const uint256& hashProofOfStake)
