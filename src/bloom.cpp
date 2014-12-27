@@ -60,7 +60,7 @@ void CBloomFilter::insert(const COutPoint& outpoint)
 
 void CBloomFilter::insert(const uint256& hash)
 {
-    vector<unsigned char> data(hash.begin(), hash.end());
+    vector<unsigned char> data(BEGIN(hash), END(hash));
     insert(data);
 }
 
@@ -90,7 +90,7 @@ bool CBloomFilter::contains(const COutPoint& outpoint) const
 
 bool CBloomFilter::contains(const uint256& hash) const
 {
-    vector<unsigned char> data(hash.begin(), hash.end());
+    vector<unsigned char> data(BEGIN(hash), END(hash));
     return contains(data);
 }
 

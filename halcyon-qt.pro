@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = halcyon-qt
-VERSION = 1.1.0.0
+VERSION = 1.1.0.2
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE
 CONFIG += no_include_pwd
@@ -119,22 +119,22 @@ LIBS += $$PWD/src/leveldb/libleveldb.a $$PWD/src/leveldb/libmemenv.a
 SOURCES += src/txdb-leveldb.cpp \
     src/bloom.cpp \
     src/hash.cpp \
-    src/aes_helper.c \
-    src/blake.c \
-    src/bmw.c \
-    src/cubehash.c \
-    src/echo.c \
-    src/groestl.c \
-    src/jh.c \
-    src/keccak.c \
-    src/luffa.c \
-    src/shavite.c \
-    src/simd.c \
-    src/skein.c \
-    src/fugue.c \
-    src/hamsi.c \
-    src/shabal.c \
-    src/whirlpool.c
+    src/x15hash.c \
+    src/sph/blake.c \
+    src/sph/bmw.c \
+    src/sph/cubehash.c \
+    src/sph/echo.c \
+    src/sph/fugue.c \
+    src/sph/groestl.c \
+    src/sph/hamsi.c \
+    src/sph/jh.c \
+    src/sph/keccak.c \
+    src/sph/luffa.c \
+    src/sph/shabal.c \
+    src/sph/shavite.c \
+    src/sph/simd.c \
+    src/sph/skein.c \
+    src/sph/whirlpool.c
 
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
@@ -261,24 +261,24 @@ HEADERS += src/qt/bitcoingui.h \
     src/bloom.h \
     src/checkqueue.h \
     src/hash.h \
-    src/hashblock.h \
+    src/x15hash.h \
     src/limitedmap.h \
-    src/sph_blake.h \
-    src/sph_bmw.h \
-    src/sph_cubehash.h \
-    src/sph_echo.h \
-    src/sph_groestl.h \
-    src/sph_jh.h \
-    src/sph_keccak.h \
-    src/sph_luffa.h \
-    src/sph_shavite.h \
-    src/sph_simd.h \
-    src/sph_skein.h \
-    src/sph_fugue.h \
-    src/sph_hamsi.h \
-    src/sph_shabal.h \
-    src/sph_whirlpool.h \
-    src/sph_types.h \
+    src/sph/sph_blake.h \
+    src/sph/sph_bmw.h \
+    src/sph/sph_cubehash.h \
+    src/sph/sph_echo.h \
+    src/sph/sph_fugue.h \
+    src/sph/sph_groestl.h \
+    src/sph/sph_hamsi.h \
+    src/sph/sph_jh.h \
+    src/sph/sph_keccak.h \
+    src/sph/sph_luffa.h \
+    src/sph/sph_shabal.h \
+    src/sph/sph_shavite.h \
+    src/sph/sph_simd.h \
+    src/sph/sph_skein.h \
+    src/sph/sph_whirlpool.h \
+    src/sph/sph_types.h \
     src/threadsafety.h \
     src/txdb-leveldb.h \
     src/qt/blockbrowser.h

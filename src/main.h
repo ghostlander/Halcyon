@@ -11,7 +11,7 @@
 #include "script.h"
 
 #include "neoscrypt.h"
-#include "hashblock.h"
+#include "x15hash.h"
 
 #include <list>
 
@@ -915,11 +915,11 @@ public:
 
     /* Block hashing */
     uint256 GetHash() const {
+        uint256 hashBlock;
 
-        if(!fTestNet && (nTime < 1419062077))
-          return(Hash9(BEGIN(nVersion), END(nNonce)));
-        else {
-            uint256 hashBlock;
+        if(!fTestNet && (nTime < 1419062077)) {
+            x15hash((uchar *) &nVersion, (uchar *) &hashBlock);
+        } else {
             /* 80 + 32 bytes, no padding */
             uchar input[112];
             /* Copy the block header */
@@ -930,8 +930,8 @@ public:
              * key is higher and lower 10 bytes of merkle root
              * with nTime, nBits, nNonce in between */
             neoscrypt_blake2s(&input[0], 112, &input[58], 32, &hashBlock, 32);
-            return(hashBlock);
         }
+        return(hashBlock);
     }
 
     /* Proof-of-work hashing */
@@ -943,12 +943,12 @@ public:
         int nHeight = GetBlockHeight();
 
         /* X15 or NeoScrypt */
-        if(!fTestNet && (nHeight < nForkOne))
-          return(Hash9(BEGIN(nVersion), END(nNonce)));
-
-        profile |= nNeoScryptOptions;
-
-        neoscrypt((uchar *) &nVersion, (uchar *) &hashPoW, profile);
+        if(!fTestNet && (nHeight < nForkOne)) {
+            x15hash((uchar *) &nVersion, (uchar *) &hashPoW);
+        } else {
+            profile |= nNeoScryptOptions;
+            neoscrypt((uchar *) &nVersion, (uchar *) &hashPoW, profile);
+        }
 
         return(hashPoW);
     }

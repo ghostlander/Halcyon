@@ -64,21 +64,6 @@ CXXFLAGS += -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter \
     $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
 
 OBJS= \
-    obj/groestl.o \
-    obj/blake.o \
-    obj/bmw.o \
-    obj/skein.o \
-    obj/keccak.o \
-    obj/shavite.o \
-    obj/jh.o \
-    obj/luffa.o \
-    obj/cubehash.o \
-    obj/echo.o \
-    obj/simd.o \
-    obj/hamsi.o \
-    obj/fugue.o \
-    obj/shabal.o \
-    obj/whirlpool.o \
     obj/alert.o \
     obj/version.o \
     obj/checkpoints.o \
@@ -110,6 +95,22 @@ OBJS= \
     obj/kernel.o \
     obj/neoscrypt.o \
     obj/neoscrypt_asm.o \
+    obj/x15hash.o \
+    obj/blake.o \
+    obj/bmw.o \
+    obj/cubehash.o \
+    obj/echo.o \
+    obj/fugue.o \
+    obj/groestl.o \
+    obj/hamsi.o \
+    obj/jh.o \
+    obj/keccak.o \
+    obj/luffa.o \
+    obj/shabal.o \
+    obj/shavite.o \
+    obj/simd.o \
+    obj/skein.o \
+    obj/whirlpool.o \
     obj/pbkdf2.o \
     obj/scrypt.o \
     obj/scrypt-arm.o \
@@ -155,6 +156,54 @@ obj/neoscrypt.o: neoscrypt.c
 
 obj/neoscrypt_asm.o: neoscrypt_asm.S
 	$(CC) -c -DASM -o $@ $^
+
+obj/x15hash.o: x15hash.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/blake.o: sph/blake.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/bmw.o: sph/bmw.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/cubehash.o: sph/cubehash.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/echo.o: sph/echo.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/fugue.o: sph/fugue.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/groestl.o: sph/groestl.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/hamsi.o: sph/hamsi.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/jh.o: sph/jh.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/keccak.o: sph/keccak.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/luffa.o: sph/luffa.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/shabal.o: sph/shabal.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/shavite.o: sph/shavite.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/simd.o: sph/simd.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/skein.o: sph/skein.c
+	$(CC) $(CFLAGS) -c -o $@ $^
+
+obj/whirlpool.o: sph/whirlpool.c
+	$(CC) $(CFLAGS) -c -o $@ $^
 
 obj/scrypt-x86.o: scrypt-x86.S
 	$(CC) -c -MMD -o $@ $<
