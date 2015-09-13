@@ -784,41 +784,35 @@ void CTxMemPool::queryHashes(std::vector<uint256>& vtxid)
 }
 
 
+/* Returns a transaction depth in the main chain or
+ *  0 = in the memory pool, not yet in the main chain
+ * -1 = failed transaction */
+int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const {
+    bool fTxMempool = mempool.exists(GetHash());
 
-
-int CMerkleTx::GetDepthInMainChainINTERNAL(CBlockIndex* &pindexRet) const
-{
-    if (hashBlock == 0 || nIndex == -1)
-        return 0;
+    if((hashBlock == 0) || (nIndex == -1))
+      return(fTxMempool ? 0 : -1);
 
     // Find the block it claims to be in
     map<uint256, CBlockIndex*>::iterator mi = mapBlockIndex.find(hashBlock);
-    if (mi == mapBlockIndex.end())
-        return 0;
+    if(mi == mapBlockIndex.end())
+      return(fTxMempool ? 0 : -1);
+
     CBlockIndex* pindex = (*mi).second;
-    if (!pindex || !pindex->IsInMainChain())
-        return 0;
+    if(!pindex || !pindex->IsInMainChain())
+      return(fTxMempool ? 0 : -1);
 
     // Make sure the merkle branch connects to this block
-    if (!fMerkleVerified)
-    {
-        if (CBlock::CheckMerkleBranch(GetHash(), vMerkleBranch, nIndex) != pindex->hashMerkleRoot)
-            return 0;
+    if(!fMerkleVerified) {
+        if(CBlock::CheckMerkleBranch(GetHash(), vMerkleBranch, nIndex) != pindex->hashMerkleRoot)
+          return(fTxMempool ? 0 : -1);
         fMerkleVerified = true;
     }
 
     pindexRet = pindex;
-    return pindexBest->nHeight - pindex->nHeight + 1;
+    return(pindexBest->nHeight - pindex->nHeight + 1);
 }
 
-int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const
-{
-    int nResult = GetDepthInMainChainINTERNAL(pindexRet);
-    if (nResult == 0 && !mempool.exists(GetHash()))
-        return -1; // Not in chain, not in mempool
-
-    return nResult;
-}
 
 int CMerkleTx::GetBlocksToMaturity() const
 {
