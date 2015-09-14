@@ -152,10 +152,10 @@ version.cpp: obj/build.h
 DEFS += -DHAVE_BUILD_INFO
 
 obj/neoscrypt.o: neoscrypt.c
-	$(CC) $(CFLAGS) -DASM -c -o $@ $^
+	$(CC) $(CFLAGS) -DASM -DOPT -c -o $@ $^
 
 obj/neoscrypt_asm.o: neoscrypt_asm.S
-	$(CC) -c -DASM -o $@ $^
+	$(CC) -c -DASM -DOPT -o $@ $^
 
 obj/x15hash.o: x15hash.c
 	$(CC) $(CFLAGS) -c -o $@ $^
