@@ -2270,6 +2270,7 @@ set< set<CTxDestination> > CWallet::GetAddressGroupings()
 void CWallet::FixSpentCoins(int& nMismatchFound, int& nOrphansFound, int64& nBalanceInQuestion,
   bool fCheckOnly) {
     nMismatchFound = 0;
+    nOrphansFound = 0;
     nBalanceInQuestion = 0;
 
     LOCK(cs_wallet);
