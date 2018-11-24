@@ -242,7 +242,7 @@ uint256 GetRandHash();
 int64_t GetTime();
 void SetMockTime(int64_t nMockTimeIn);
 int64_t GetAdjustedTime();
-int64_t GetTimeOffset();
+extern int64 nPeersOffset;
 std::string FormatFullVersion();
 std::string FormatSubVersion(const std::string& name, uint nClientVersion,
   const std::vector<std::string>& comments);

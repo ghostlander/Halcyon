@@ -7,6 +7,8 @@
 #include "walletdb.h"
 #include "bitcoinrpc.h"
 #include "init.h"
+#include "util.h"
+#include "ntp.h"
 #include "base58.h"
 
 using namespace json_spirit;
@@ -89,11 +91,14 @@ Value getinfo(const Array& params, bool fHelp)
     obj.push_back(Pair("newmint",       ValueFromAmount(pwalletMain->GetNewMint())));
     obj.push_back(Pair("stake",         ValueFromAmount(pwalletMain->GetStake())));
     obj.push_back(Pair("blocks",        (int)nBestHeight));
-    obj.push_back(Pair("timeoffset",    (boost::int64_t)GetTimeOffset()));
     obj.push_back(Pair("moneysupply",   ValueFromAmount(pindexBest->nMoneySupply)));
     obj.push_back(Pair("connections",   (int)vNodes.size()));
     obj.push_back(Pair("proxy",         (proxy.first.IsValid() ? proxy.first.ToStringIPPort() : string())));
     obj.push_back(Pair("ip",            addrSeenByPeer.ToStringIP()));
+    obj.push_back(Pair("systemtime",    (boost::int64_t)GetTime()));
+    obj.push_back(Pair("adjustedtime",  (boost::int64_t)GetAdjustedTime()));
+    obj.push_back(Pair("ntpoffset",     (boost::int64_t)nNtpOffset != INT64_MAX ? (boost::int64_t)nNtpOffset : Value::null));
+    obj.push_back(Pair("p2poffset",     (boost::int64_t)nPeersOffset != INT64_MAX ? (boost::int64_t)nPeersOffset : Value::null));
 
     diff.push_back(Pair("proof-of-work",  GetDifficulty()));
     diff.push_back(Pair("proof-of-stake", GetDifficulty(GetLastBlockIndex(pindexBest, true))));

@@ -281,7 +281,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/sph/sph_types.h \
     src/threadsafety.h \
     src/txdb-leveldb.h \
-    src/qt/blockbrowser.h
+    src/qt/blockbrowser.h \
+    src/ntp.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -353,7 +354,8 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt.cpp \
     src/pbkdf2.cpp \
-    src/qt/blockbrowser.cpp
+    src/qt/blockbrowser.cpp \
+    src/ntp.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
