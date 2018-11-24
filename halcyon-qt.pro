@@ -281,7 +281,7 @@ HEADERS += src/qt/bitcoingui.h \
     src/sph/sph_types.h \
     src/threadsafety.h \
     src/txdb-leveldb.h \
-    src/qt/blockbrowser.h \
+    src/qt/blockexplorer.h \
     src/ntp.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
@@ -354,7 +354,7 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/scrypt-x86_64.S \
     src/scrypt.cpp \
     src/pbkdf2.cpp \
-    src/qt/blockbrowser.cpp \
+    src/qt/blockexplorer.cpp \
     src/ntp.cpp
 
 RESOURCES += \
@@ -373,7 +373,7 @@ FORMS += \
     src/qt/forms/askpassphrasedialog.ui \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/optionsdialog.ui \
-    src/qt/forms/blockbrowser.ui
+    src/qt/forms/blockexplorer.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
