@@ -66,6 +66,10 @@ static const int64_t CENT = 1000000;
 #endif
 #endif
 
+#ifndef INT64_MAX
+#define INT64_MAX 9223372036854775807LL
+#endif
+
 #ifndef THROW_WITH_STACKTRACE
 #define THROW_WITH_STACKTRACE(exception)  \
 {                                         \
