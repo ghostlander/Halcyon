@@ -13,7 +13,7 @@ Halcyon (HAL) is a decentralised open source digital currency.
  - time warp and instamining protection
  - advanced checkpointing against 51% attacks
  - PoW block reward is fixed at 5 HAL
- - PoS block reward is up to 300% per year (5 HAL max.)
+ - PoS block reward is up to 100% per year (5 HAL max.)
  - coin age for PoS: 0.5 days min. to 7.5 days max.
  - 10 confirmations for regular transactions
  - 50 confirmations for minted coins
