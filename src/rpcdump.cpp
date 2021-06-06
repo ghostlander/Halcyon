@@ -105,12 +105,14 @@ public:
     }
 };
 
-Value importprivkey(const Array& params, bool fHelp)
-{
-    if (fHelp || params.size() < 1 || params.size() > 2)
-        throw runtime_error(
-            "importprivkey <halcyonprivkey> [label]\n"
-            "Adds a private key (as returned by dumpprivkey) to your wallet.");
+Value importprivkey(const Array& params, bool fHelp) {
+
+    if(fHelp || (params.size() < 1) || (params.size() > 3)) {
+        string msg = "importprivkey <key> [label] [rescan]\n"
+          "Adds a private <key> to your wallet in the format of RPC dumpprivkey.\n"
+          "Block chain re-scanning is on (true) by default.\n";
+        throw(runtime_error(msg));
+    }
 
     string strSecret = params[0].get_str();
     string strLabel = "";
@@ -118,6 +120,10 @@ Value importprivkey(const Array& params, bool fHelp)
         strLabel = params[1].get_str();
     CBitcoinSecret vchSecret;
     bool fGood = vchSecret.SetString(strSecret);
+
+    bool fRescan = true;
+    if(params.size() > 2)
+      fRescan = params[2].get_bool();
 
     if (!fGood) throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key");
     if (fWalletUnlockStakingOnly)
@@ -137,11 +143,13 @@ Value importprivkey(const Array& params, bool fHelp)
         if (!pwalletMain->AddKey(key))
             throw JSONRPCError(RPC_WALLET_ERROR, "Error adding key to wallet");
 
-        pwalletMain->ScanForWalletTransactions(pindexGenesisBlock, true);
-        pwalletMain->ReacceptWalletTransactions();
+        if(fRescan) {
+            pwalletMain->ScanForWalletTransactions(pindexGenesisBlock, true);
+            pwalletMain->ReacceptWalletTransactions();
+        }
     }
 
-    return Value::null;
+    return(Value::null);
 }
 
 Value importwallet(const Array& params, bool fHelp)
